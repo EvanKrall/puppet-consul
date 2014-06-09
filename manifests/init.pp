@@ -46,7 +46,7 @@ class consul (
 
   class { 'consul::install': } ->
   class { 'consul::config': } ~>
-  class { 'consul::service': } ->
+  class { 'consul::run_service': } ->
   Class['consul']
 
 }
