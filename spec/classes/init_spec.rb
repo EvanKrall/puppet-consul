@@ -110,6 +110,15 @@ describe 'consul' do
     it { should contain_class('consul').with_init_style('debian') }
   end
 
+  context "With enable = false" do
+    let (:params) {{
+      :enable         => false,
+      :install_method => 'package',
+    }}
+    it { should contain_package('consul').with(:ensure => 'purged') }
+    it { should contain_service('consul').with(:ensure => 'stopped', :enable => false) }
+  end
+
   # Config Stuff
   context "With extra_options" do
     let(:params) {{

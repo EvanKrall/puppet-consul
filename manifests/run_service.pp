@@ -6,8 +6,8 @@
 class consul::run_service {
 
   service { 'consul':
-    ensure     => $consul::service_ensure,
-    enable     => $consul::service_enable,
+    ensure     => pick($consul::service_ensure, $consul::default_service_ensure),
+    enable     => pick($consul::service_enable, $consul::default_service_enable),
   }
 
 }

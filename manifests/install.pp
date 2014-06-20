@@ -21,7 +21,7 @@ class consul::install {
   } elsif $consul::install_method == 'package' {
 
     package { $consul::package_name:
-      ensure => $consul::package_ensure,
+      ensure => pick($consul::package_ensure, $consul::default_package_ensure),
     }
 
   } else {
@@ -35,6 +35,10 @@ class consul::install {
         owner   => 'root',
         group   => 'root',
         content => template('consul/consul.upstart.erb'),
+        ensure  => $consul::enable ? {
+          true  => 'present',
+          false => 'absent',
+        },
       }
     }
     'redhat' : {
@@ -42,7 +46,11 @@ class consul::install {
         mode    => '0555',
         owner   => 'root',
         group   => 'root',
-        content => template('consul/consul.redhat.erb')
+        content => template('consul/consul.redhat.erb'),
+        ensure  => $consul::enable ? {
+          true  => 'present',
+          false => 'absent',
+        },
       }
     }
     'debian' : {
@@ -50,7 +58,11 @@ class consul::install {
         mode    => '0555',
         owner   => 'root',
         group   => 'root',
-        content => template('consul/consul.debian.erb')
+        content => template('consul/consul.debian.erb'),
+        ensure  => $consul::enable ? {
+          true  => 'present',
+          false => 'absent',
+        },
       }
     }
     default : {
