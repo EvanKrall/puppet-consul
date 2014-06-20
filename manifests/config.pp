@@ -8,7 +8,8 @@ class consul::config {
     ensure => $consul::enable ? {
       true  => 'directory',
       false => 'absent',
-    }
+    },
+    force => true,
   } ->
   file { 'config.json':
     path    => "${consul::config_dir}/config.json",
