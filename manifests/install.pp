@@ -72,12 +72,18 @@ class consul::install {
 
   if $consul::manage_user {
     user { $consul::user:
-      ensure => 'present',
+      ensure => $consul::enable ? {
+        true  => 'present',
+        false => 'absent',
+      },
     }
   }
   if $consul::manage_group {
     group { $consul::group:
-      ensure => 'present',
+      ensure => $consul::enable ? {
+        true  => 'present',
+        false => 'absent',
+      },
     }
   }
 }
