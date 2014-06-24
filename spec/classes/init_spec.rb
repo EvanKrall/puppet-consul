@@ -110,6 +110,22 @@ describe 'consul' do
     it { should contain_class('consul').with_init_style('debian') }
   end
 
+  context "With enable = false" do
+    let (:params) {{
+      :enable         => false,
+      :install_method => 'package',
+      :init_style     => 'upstart',
+      :config_dir     => '/etc/consul',
+    }}
+    it { should contain_package('consul').with(:ensure => 'purged') }
+    it { should contain_service('consul').with(:ensure => 'stopped', :enable => false) }
+    it { should contain_file('/etc/init/consul.conf').with(:ensure => 'absent') }
+    it { should contain_file('/etc/consul').with(:ensure => 'absent') }
+    it { should contain_file('config.json').with(:ensure => 'absent') }
+    it { should contain_user('consul').with(:ensure => 'absent') }
+    it { should contain_group('consul').with(:ensure => 'absent') }
+  end
+
   # Config Stuff
   context "With extra_options" do
     let(:params) {{
