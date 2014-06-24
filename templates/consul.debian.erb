@@ -157,11 +157,16 @@ case "$1" in
         ;;
     esac
     ;;
+  status)
+     start-stop-daemon --status --quiet --pidfile $PIDFILE --exec $DAEMON
+     exit $?
+     ;;
   *)
     #echo "Usage: $SCRIPTNAME {start|stop|restart|reload|force-reload}" >&2
-    echo "Usage: $SCRIPTNAME {start|stop|restart|force-reload}" >&2
+    echo "Usage: $SCRIPTNAME {start|stop|restart|force-reload|status}" >&2
     exit 3
     ;;
 esac
 
 :
+

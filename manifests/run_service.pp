@@ -8,6 +8,7 @@ class consul::run_service {
   service { 'consul':
     ensure     => $consul::service_ensure,
     enable     => $consul::service_enable,
+    hasstatus  => true;
   }
 
 }
