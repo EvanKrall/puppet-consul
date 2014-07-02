@@ -158,7 +158,7 @@ case "$1" in
     esac
     ;;
   status)
-     start-stop-daemon --status --quiet --pidfile $PIDFILE --exec $DAEMON
+     start-stop-daemon --quiet --stop --test --pidfile $PIDFILE --exec $DAEMON --user $USER
      exit $?
      ;;
   *)
