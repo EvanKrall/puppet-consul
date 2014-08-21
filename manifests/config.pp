@@ -5,11 +5,13 @@
 class consul::config {
 
   file { $consul::config_dir:
-    ensure => $consul::enable ? {
+    ensure  => $consul::enable ? {
       true  => 'directory',
       false => 'absent',
     },
-    force => true,
+    force   => true,
+    recurse => true,
+    purge   => true,
   } ->
   file { 'config.json':
     path    => "${consul::config_dir}/config.json",
