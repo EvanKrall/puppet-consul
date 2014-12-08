@@ -24,6 +24,11 @@ class consul::params {
     default:  { $download_source = "https://dl.bintray.com/mitchellh/consul" }
   }
 
+  case $::operatingsystem {
+    'Darwin': { $os = 'darwin' }
+    default:  { $os = 'linux' }
+  }
+
   $init_style = $::operatingsystem ? {
     'Ubuntu'             => $::lsbdistrelease ? {
       '8.04'           => 'debian',
@@ -40,6 +45,7 @@ class consul::params {
     },
     'Debian'             => 'debian',
     'SLES'               => 'sles',
+    'Darwin'             => 'launchd',
     default => undef
   }
 }
