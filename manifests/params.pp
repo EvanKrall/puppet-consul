@@ -15,7 +15,13 @@ class consul::params {
   case $::architecture {
     'x86_64', 'amd64': { $arch = 'amd64' }
     'i386':            { $arch = '386'   }
+    'armv7l':          { $arch = 'armv7l' }
     default:           { fail("Unsupported kernel architecture: ${::architecture}") }
+  }
+
+  case $arch {
+    'armv7l': { $download_source = "https://dl.bintray.com/evankrall/consul" }
+    default:  { $download_source = "https://dl.bintray.com/mitchellh/consul" }
   }
 
   $init_style = $::operatingsystem ? {
