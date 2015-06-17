@@ -10,6 +10,7 @@ env GROUP=<%= scope.lookupvar('consul::group') %>
 env DEFAULTS=/etc/default/consul
 env RUNDIR=/var/run/consul
 env PID_FILE=/var/run/consul/consul.pid
+env UMASK=<%= scope.lookupvar('consul::umask') %>
 
 pre-start script
   [ -e $DEFAULTS ] && . $DEFAULTS
@@ -24,7 +25,7 @@ script
     [ -e $DEFAULTS ] && . $DEFAULTS
 
     export GOMAXPROCS=${GOMAXPROCS:-2}
-    exec start-stop-daemon -u $USER -g $GROUP -p $PID_FILE -x $CONSUL -S -- agent -config-dir $CONFIG -pid-file $PID_FILE <%= scope.lookupvar('consul::extra_options') %>
+    exec start-stop-daemon -u $USER -g $GROUP -p $PID_FILE -k $UMASK -x $CONSUL -S -- agent -config-dir $CONFIG -pid-file $PID_FILE <%= scope.lookupvar('consul::extra_options') %>
 end script
 
 respawn
