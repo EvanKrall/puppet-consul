@@ -8,7 +8,6 @@ class consul::params {
   $install_method        = 'url'
   $package_name          = 'consul'
   $package_ensure        = 'latest'
-  $download_url_base     = 'https://dl.bintray.com/mitchellh/consul/'
   $download_extension    = 'zip'
   $ui_package_name       = 'consul_ui'
   $ui_package_ensure     = 'latest'
@@ -19,10 +18,17 @@ class consul::params {
   case $::architecture {
     'x86_64', 'amd64': { $arch = 'amd64' }
     'i386':            { $arch = '386'   }
+    'armv7l':          { $arch = 'armv7l' }
     default:           {
       fail("Unsupported kernel architecture: ${::architecture}")
     }
   }
+
+  case $arch {
+    'armv7l': { $download_url_base = "https://dl.bintray.com/evankrall/consul/" }
+    default:  { $download_url_base = "https://dl.bintray.com/mitchellh/consul/" }
+  }
+
 
   $os = downcase($::kernel)
 
