@@ -69,6 +69,7 @@ class consul (
   $watches               = {},
   $checks                = {},
   $acls                  = {},
+  $umask                 = '0022',
 ) inherits consul::params {
 
   $real_download_url    = pick($download_url, "${download_url_base}${version}_${os}_${arch}.${download_extension}")
